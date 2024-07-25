@@ -1,8 +1,12 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { AreaCode } from 'src/area-code/entities/area-code.entity';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAreaCodeDto, UpdateAreaCodeDto } from './dto/area-code.dto';
+import { AreaCode } from './entities/area-code.entity';
 
 @Injectable()
 export class AreaCodeService {
@@ -11,10 +15,14 @@ export class AreaCodeService {
     private readonly areaCodeRepository: Repository<AreaCode>,
   ) {}
 
-  async findOne(id: number): Promise<AreaCode> {
-    return await this.areaCodeRepository.findOne({
+  async findOne(id: string): Promise<AreaCode> {
+    const areaCode = await this.areaCodeRepository.findOne({
       where: { id },
     });
+    if (!areaCode) {
+      throw new NotFoundException('AreaCode not found');
+    }
+    return areaCode;
   }
 
   async findOneByCode(code: string): Promise<AreaCode> {
@@ -42,7 +50,7 @@ export class AreaCodeService {
     return await this.areaCodeRepository.save(areaCode);
   }
 
-  async update(id: number, data: UpdateAreaCodeDto): Promise<AreaCode> {
+  async update(id: string, data: UpdateAreaCodeDto): Promise<AreaCode> {
     if (data.code) {
       await this.validateCode(data.code);
     }
