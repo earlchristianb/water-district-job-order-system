@@ -20,7 +20,7 @@ import config from './config/config';
       password: config().DB_PASSWORD,
       database: config().DB_NAME,
       entities: [AreaCode],
-      synchronize: true,
+      synchronize: false,
     }),
     AreaCodeModule,
   ],
