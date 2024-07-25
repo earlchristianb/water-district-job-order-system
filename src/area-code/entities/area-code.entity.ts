@@ -3,6 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  Unique,
 } from 'typeorm';
 
 @Entity()
@@ -12,6 +13,7 @@ export class AreaCode {
 
   @Column({
     nullable: false,
+    unique: true,
   })
   code: string;
 
@@ -22,8 +24,4 @@ export class AreaCode {
 
   @CreateDateColumn()
   created_at: Date;
-
-  // Add more columns and relationships as needed
-
-  // You can also add custom methods and decorators here
 }
