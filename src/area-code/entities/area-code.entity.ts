@@ -3,7 +3,8 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  Unique,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 
 @Entity()
@@ -24,4 +25,10 @@ export class AreaCode {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  transformCodeToUppercase() {
+    this.code = this.code.toUpperCase();
+  }
 }
