@@ -71,6 +71,10 @@ export class AreaCodeController {
     example: AreaCodeResponseSamples.AreaCodeNotFoundResponseExample,
   })
   @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.areaCodeService.findOne(id);
+  }
+
   @ApiOperation({ summary: 'Create a new area code' })
   @ApiBody({
     schema: {
